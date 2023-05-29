@@ -1,5 +1,5 @@
 function SingIn() {
-  return <div className="bg-slate-800 text-white">SingIn</div>;
+  return <div>SignIn</div>;
 }
 
 export default SingIn;

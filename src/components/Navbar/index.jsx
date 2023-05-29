@@ -1,99 +1,50 @@
 import { NavLink } from "react-router-dom";
 
-let menu_right = [
-  {
-    to: "/",
-    text: "TailwindCSS Shop",
-    className: "font-extrabold text-lg",
-  },
-  {
-    to: "/ropa",
-    text: "Ropa",
-    className: "",
-  },
-  {
-    to: "/electronicos",
-    text: "Electronicos",
-    className: "",
-  },
-  {
-    to: "/muebles",
-    text: "Muebles",
-    className: "",
-  },
-  {
-    to: "/juguetes",
-    text: "Juguetes",
-    className: "",
-  },
-  {
-    to: "/otros",
-    text: "Otros",
-    className: "",
-  },
-];
-
-let menu_left = [
-  {
-    to: "mailto:rahp.dev@gmail.com",
-    text: "rahp.dev@gmail.com",
-    className: "text-sky-400",
-  },
-  {
-    to: "/my-orders",
-    text: "Mis ordenes",
-    className: "",
-  },
-  {
-    to: "/my-account",
-    text: "Mi cuenta",
-    className: "",
-  },
-  {
-    to: "/sign-in",
-    text: "Ingresa",
-    className: "",
-  },
-  {
-    to: "/total",
-    text: "🛒 0",
-    className: "",
-  },
-];
-
 const Navbar = () => {
-  const textDecoration = "text-slate-400";
+  const activeStyle = "underline underline-offset-4";
 
+  const categories = [
+    { to: "/", text: "Home" },
+    { to: "/all", text: "All" },
+    { to: "/clothes", text: "Clothes" },
+    { to: "/furniture", text: "Furniture" },
+    { to: "/toys", text: "Toys" },
+  ];
+
+  const routes = [
+    { to: "/my-orders", text: "My Orders" },
+    { to: "/my-account", text: "My Account" },
+    { to: "/sign-in", text: "Sign In" },
+  ];
   return (
-    <nav className="flex justify-between items-center fixed z-10 w-full py-5 px-12 text-base font-semibold bg-slate-800 text-slate-200">
+    <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-semibold shadow-lg">
       <ul className="flex items-center gap-4">
-        {menu_right.map((link) => (
-          <li key={link.text} className={link.className}>
+        {categories.map((category, index) => (
+          <li key={index} className="first:font-semibold first:text-lg">
             <NavLink
-              to={link.to}
-              className={({ isActive }) =>
-                isActive ? textDecoration : undefined
-              }
+              to={category.to}
+              className={({ isActive }) => `${isActive ? activeStyle : ""}`}
             >
-              {link.text}
+              {category.text}
             </NavLink>
           </li>
         ))}
       </ul>
 
       <ul className="flex items-center gap-4">
-        {menu_left.map((link) => (
-          <li key={link.text} className={link.className}>
+        <li className="text-black/60">rahp.dev@gmail.com</li>
+
+        {routes.map((route, index) => (
+          <li key={index}>
             <NavLink
-              to={link.to}
-              className={({ isActive }) =>
-                isActive ? textDecoration : undefined
-              }
+              to={route.to}
+              className={({ isActive }) => `${isActive ? activeStyle : ""}`}
             >
-              {link.text}
+              {route.text}
             </NavLink>
           </li>
         ))}
+        <li>🛒2</li>
       </ul>
     </nav>
   );

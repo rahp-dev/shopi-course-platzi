@@ -1,5 +1,5 @@
 function NotFound() {
-  return <div className="bg-slate-800 text-white">NotFound</div>;
+  return <div>NotFound</div>;
 }
 
 export default NotFound;
