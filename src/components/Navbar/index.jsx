@@ -1,7 +1,11 @@
+import { useContext } from "react";
+import { CartContext } from "../../context";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const activeStyle = "underline underline-offset-4";
+  const context = useContext(CartContext);
+
+  const activeStyle = "underline underline-offset-4 decoration-2";
 
   const categories = [
     { to: "/", text: "Home" },
@@ -17,7 +21,7 @@ const Navbar = () => {
     { to: "/sign-in", text: "Sign In" },
   ];
   return (
-    <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-semibold shadow-lg">
+    <nav className="flex justify-between items-center fixed z-10 top-0 w-full py-5 px-8 text-sm font-semibold shadow-lg bg-white">
       <ul className="flex items-center gap-4">
         {categories.map((category, index) => (
           <li key={index} className="first:font-semibold first:text-lg">
@@ -44,7 +48,10 @@ const Navbar = () => {
             </NavLink>
           </li>
         ))}
-        <li>🛒2</li>
+        <li className="text-base">
+          <span>🛒</span>
+          {context.count}
+        </li>
       </ul>
     </nav>
   );
