@@ -23,7 +23,7 @@ function Home() {
 
   return (
     <>
-      <HashLoader size={80} color={"#36d7b7"} loading={isLoading} />
+      <HashLoader size={80} color={"#2E4053"} loading={isLoading} />
       <div className="grid md:grid-cols-4 sm:grid-cols-2 md:gap-8 sm:gap-4 sm:justify-items-center w-full max-w-screen-lg">
         {!isLoading && items?.map((item) => <Card data={item} key={item.id} />)}
       </div>
