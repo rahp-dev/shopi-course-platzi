@@ -4,12 +4,12 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 
 const ProductDetail = () => {
   const context = useContext(CartContext);
-  console.log("Product: ", context.productToShow);
+  // console.log("Product: ", context.productToShow);
 
   return (
     <aside
       className={`${
-        context.isDetailOpen ? "flex" : "hidden"
+        context.isDetailOpen ? "flex " : "hidden"
       } flex-col fixed right-0 bg-white border border-gray-200 shadow-2xl rounded-md w-[340px] h-[calc(100vh-68px)] top-[68px]`}
     >
       <div className="flex justify-between items-center p-6">
@@ -22,7 +22,7 @@ const ProductDetail = () => {
         </button>
       </div>
 
-      <figure className="p-6">
+      <figure className="p-7">
         <img
           className="w-full h-full rounded-lg shadow-lg"
           src={
@@ -36,9 +36,7 @@ const ProductDetail = () => {
           {context.productToShow.title}
         </span>
         <span className="font-medium mb-2">${context.productToShow.price}</span>
-        <span className="font-light text-justify">
-          {context.productToShow.description}
-        </span>
+        <span className="font-light">{context.productToShow.description}</span>
       </p>
 
       <div className="flex justify-between items-center py-4 px-5">

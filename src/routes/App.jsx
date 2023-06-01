@@ -7,7 +7,9 @@ import MyOrders from "../pages/MyOrders";
 import MyAccount from "../pages/MyAccount";
 import NotFound from "../pages/NotFound";
 import SignIn from "../pages/SignIn";
+
 import Navbar from "../components/Navbar";
+import CheckoutMenu from "../components/CheckoutMenu";
 
 export default function App() {
   return (
@@ -22,6 +24,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Navbar />
+        <CheckoutMenu />
       </BrowserRouter>
     </CartProvider>
   );

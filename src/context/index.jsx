@@ -19,11 +19,19 @@ export const CartProvider = ({ children }) => {
   // Product Detail - Show Product
   const [productToShow, setProductToShow] = useState({});
 
+  // Checkout Menu - Open or non-open Observation
+  const [isCheckoutMenuOpen, setIsCheckoutMenuOpen] = useState(false);
+
+  // Checkout Menu - Open/Close
+  const openCheckoutMenu = () => setIsCheckoutMenuOpen(true);
+  const closeCheckoutMenu = () => setIsCheckoutMenuOpen(false);
+
   return (
     <CartContext.Provider
       value={{
         count,
         isDetailOpen,
+        isCheckoutMenuOpen,
         productToShow,
         cartProducts,
         setCount,
@@ -31,6 +39,9 @@ export const CartProvider = ({ children }) => {
         closeProductDetail,
         setProductToShow,
         setCardProducts,
+        setIsCheckoutMenuOpen,
+        openCheckoutMenu,
+        closeCheckoutMenu,
       }}
     >
       {children}

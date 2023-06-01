@@ -3,12 +3,30 @@ import { CartContext } from "../../context";
 
 import { PlusIcon } from "@heroicons/react/24/solid";
 
+import { Slide, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const Card = (data) => {
   const context = useContext(CartContext);
 
   const showProduct = (productDetail) => {
     context.openProductDetail();
     context.setProductToShow(productDetail);
+  };
+
+  const addProductsToCart = (event, productData) => {
+    event.stopPropagation();
+
+    context.setCardProducts((cartProducts) => [...cartProducts, productData]);
+    context.setCount(context.count + 1);
+
+    context.closeProductDetail();
+    context.openCheckoutMenu();
+
+    toast.success(`${data.data?.title} agregado al carrito.`, {
+      bodyClassName: "text-sm font-medium text-black",
+      transition: Slide,
+    });
   };
 
   return (
@@ -27,9 +45,9 @@ const Card = (data) => {
         />
         <button
           className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 m-2 text-sm rounded-full shadow-lg"
-          onClick={() => context.setCount(context.count + 1)}
+          onClick={(e) => addProductsToCart(e, data.data)}
         >
-          <PlusIcon className="w-6 h-6 hover:text-green-500 transition-colors duration-300" />
+          <PlusIcon className="w-6 h-6 hover:text-green-700 transition-colors duration-300" />
         </button>
       </figure>
       <p className="flex justify-between">
