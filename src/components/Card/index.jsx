@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../../context";
 
-import { PlusIcon } from "@heroicons/react/24/solid";
+import { CheckIcon, PlusIcon } from "@heroicons/react/24/solid";
 
 import { Slide, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -29,6 +29,28 @@ const Card = (data) => {
     });
   };
 
+  const renderIcon = (id) => {
+    const isInCart =
+      context.cartProducts.filter((product) => product.id === id).length > 0;
+
+    if (isInCart) {
+      return (
+        <button className="absolute top-0 right-0 flex justify-center items-center bg-slate-800 w-6 h-6 m-2 text-sm rounded-full shadow-lg">
+          <CheckIcon className="w-6 h-6 text-cyan-500" />
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 m-2 text-sm rounded-full shadow-lg"
+          onClick={(e) => addProductsToCart(e, data.data)}
+        >
+          <PlusIcon className="w-6 h-6 hover:text-green-700 transition-colors duration-300" />
+        </button>
+      );
+    }
+  };
+
   return (
     <div
       className="bg-white cursor-pointer w-56 h-60 rounded-lg"
@@ -43,12 +65,8 @@ const Card = (data) => {
           src={data.data?.images[0]}
           alt={data.data?.title}
         />
-        <button
-          className="absolute top-0 right-0 flex justify-center items-center bg-white w-6 h-6 m-2 text-sm rounded-full shadow-lg"
-          onClick={(e) => addProductsToCart(e, data.data)}
-        >
-          <PlusIcon className="w-6 h-6 hover:text-green-700 transition-colors duration-300" />
-        </button>
+
+        {renderIcon(data.data?.id)}
       </figure>
       <p className="flex justify-between">
         <span className="text-sm font-medium">{data.data?.title}</span>
