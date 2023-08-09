@@ -1,31 +1,38 @@
-import { useState, useEffect } from "react";
-import { HashLoader } from "react-spinners";
-import axios from "axios";
+import { useContext } from "react";
+import { CartContext } from "../context";
 
 import Card from "../components/Card";
 import ProductDetail from "../components/ProductDetail";
 
 function Home() {
-  const [items, setItems] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    axios
-      .get("https://api.escuelajs.co/api/v1/products")
-      .then((res) => {
-        setItems(res.data);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-      });
-  }, []);
+  const context = useContext(CartContext);
+  const renderView = () => {
+    if (context.searchByTitle?.length > 0) {
+      if (context.filteredItems?.length > 0) {
+        return context.filteredItems?.map((item) => (
+          <Card data={item} key={item.id} />
+        ));
+      } else {
+        return <div>We don't have anything :c</div>;
+      }
+    } else {
+      return context.items?.map((item) => <Card data={item} key={item.id} />);
+    }
+  };
 
   return (
     <>
-      <HashLoader size={80} color={"#2E4053"} loading={isLoading} />
+      <div className="flex justify-center">
+        <input
+          type="text"
+          placeholder="Search a product"
+          className="rounded-lg border border-slate-800/25 w-80 p-2 mb-6 shadow focus:outline-none text-sm font-semibold"
+          onChange={(e) => context.setSearchByTitle(e.target.value)}
+        />
+      </div>
+
       <div className="grid md:grid-cols-4 sm:grid-cols-2 md:gap-8 sm:gap-4 sm:justify-items-center w-full max-w-screen-lg">
-        {!isLoading && items?.map((item) => <Card data={item} key={item.id} />)}
+        {renderView()}
       </div>
       <ProductDetail />
     </>
