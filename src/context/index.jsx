@@ -37,6 +37,9 @@ export const CartProvider = ({ children }) => {
   //Get products by title
   const [searchByTitle, setSearchByTitle] = useState(null);
 
+  //Get products by category
+  const [searchByCategory, setSearchByCategory] = useState(null);
+
   useEffect(() => {
     axios
       .get("https://api.escuelajs.co/api/v1/products")
@@ -54,10 +57,53 @@ export const CartProvider = ({ children }) => {
     );
   };
 
+  const filteredItemsByCategory = (items, searchByCategory) => {
+    return items?.filter((item) =>
+      item.category.name.toLowerCase().includes(searchByCategory.toLowerCase())
+    );
+  };
+
+  const filterBy = (searchType, items, searchByTitle, searchByCategory) => {
+    if (searchType === "BY_TITLE") {
+      return filteredItemsByTitle(items, searchByTitle);
+    }
+    if (searchType === "BY_CATEGORY") {
+      return filteredItemsByCategory(items, searchByCategory);
+    }
+    if (!searchType) {
+      return items;
+    }
+    if (searchType === "BY_TITLE_AND_CATEGORY") {
+      return filteredItemsByCategory(items, searchByCategory).filter((item) =>
+        item.title.toLowerCase().includes(searchByTitle.toLowerCase())
+      );
+    }
+  };
+
   useEffect(() => {
-    if (searchByTitle)
-      setFilteredItems(filteredItemsByTitle(items, searchByTitle));
-  }, [items, searchByTitle]);
+    if (searchByTitle && searchByCategory)
+      setFilteredItems(
+        filterBy(
+          "BY_TITLE_AND_CATEGORY",
+          items,
+          searchByTitle,
+          searchByCategory
+        )
+      );
+
+    if (searchByTitle && !searchByCategory)
+      setFilteredItems(
+        filterBy("BY_TITLE", items, searchByTitle, searchByCategory)
+      );
+
+    if (!searchByTitle && searchByCategory)
+      setFilteredItems(
+        filterBy("BY_CATEGORY", items, searchByTitle, searchByCategory)
+      );
+
+    if (!searchByTitle && !searchByCategory)
+      setFilteredItems(filterBy(null, items, searchByTitle, searchByCategory));
+  }, [items, searchByTitle, searchByCategory]);
 
   return (
     <CartContext.Provider
@@ -71,6 +117,7 @@ export const CartProvider = ({ children }) => {
         items,
         searchByTitle,
         filteredItems,
+        searchByCategory,
         setCount,
         openProductDetail,
         closeProductDetail,
@@ -82,6 +129,7 @@ export const CartProvider = ({ children }) => {
         setOrder,
         setItems,
         setSearchByTitle,
+        setSearchByCategory,
       }}
     >
       {children}
